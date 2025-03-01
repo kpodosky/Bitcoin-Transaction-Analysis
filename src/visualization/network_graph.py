@@ -281,4 +281,71 @@ class TransactionNetworkVisualizer:
         pos = nx.spring_layout(plot_graph, k=0.15, iterations=50)
         
         # Draw nodes
-        node_sizes = [5 + (plot_graph.in_degree(n) + plot_graph.out_degree(n)) for n
+        node_sizes = [5 + (plot_graph.in_degree(n) + plot_graph.out_degree(n)) for n in plot_graph.nodes()]
+        nx.draw_networkx_nodes(
+            plot_graph, 
+            pos, 
+            node_size=node_sizes,
+            node_color='skyblue', 
+            alpha=0.8
+        )
+        
+        # Draw edges with varying width based on weight
+        edge_weights = [min(5, 0.5 + np.log1p(plot_graph[u][v]['weight'])) for u, v in plot_graph.edges()]
+        nx.draw_networkx_edges(
+            plot_graph, 
+            pos, 
+            width=edge_weights,
+            alpha=0.5,
+            edge_color='gray',
+            arrows=True,
+            arrowsize=10,
+            connectionstyle='arc3,rad=0.1'
+        )
+        
+        # Minimal labels for top nodes
+        top_degrees = sorted([(n, plot_graph.degree(n)) for n in plot_graph.nodes()], key=lambda x: x[1], reverse=True)
+        labels = {n: n[:8] + "..." for n, _ in top_degrees[:20]}
+        nx.draw_networkx_labels(plot_graph, pos, labels=labels, font_size=8)
+        
+        plt.title("Bitcoin Transaction Network")
+        plt.axis('off')
+        
+        # Save figure
+        output_file = os.path.join(self.output_dir, 'network_graphs', 'static_network.png')
+        plt.savefig(output_file, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        logger.info(f"Static network plot saved to {output_file}")
+
+def main():
+    """Run network visualization."""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Visualize Bitcoin transaction networks')
+    parser.add_argument('--data-dir', required=True, help='Directory with transaction data')
+    parser.add_argument('--output-dir', required=True, help='Directory to save visualization outputs')
+    parser.add_argument('--max-transactions', type=int, default=10000, help='Maximum transactions to include')
+    parser.add_argument('--hub-depth', type=int, default=1, help='Neighborhood depth for hub subgraphs')
+    args = parser.parse_args()
+    
+    # Create visualizer
+    visualizer = TransactionNetworkVisualizer(
+        args.data_dir,
+        args.output_dir
+    )
+    
+    # Load data and build graph
+    visualizer.load_transactions(max_transactions=args.max_transactions)
+    
+    # Generate visualizations
+    visualizer.identify_hubs()
+    visualizer.visualize_full_network()
+    visualizer.visualize_hub_subgraphs(depth=args.hub_depth)
+    visualizer.generate_static_network_plot()
+    
+    logger.info("Visualization complete")
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    main()
