@@ -5,26 +5,15 @@ Transaction frequency patterns for Bitcoin addresses
 Identification of major exchanges and their transaction volumes
 Visualization of inflows and outflows using pie charts
 Network analysis of transaction patterns
-Project Structure
 
-bitcoin-transaction-analysis/
-├── data/
-│   ├── raw/
-│   └── processed/
-├── notebooks/
-│   ├── 01_data_collection.ipynb
-│   ├── 02_data_preprocessing.ipynb
-│   ├
 # Bitcoin Transaction Analysis
 
 A data analysis project exploring Bitcoin transaction patterns, exchange flows, and network visualization.
 
 ## Project Overview
-
 This project analyzes Bitcoin blockchain data to understand transaction patterns, identify major exchanges, and visualize cryptocurrency flows across the network. The analysis focuses on transaction frequencies, exchange identification, and network visualization.
 
 ## Features
-
 - Transaction frequency analysis by address
 - Exchange inflow and outflow tracking
 - Visualization with interactive charts and graphs
@@ -32,22 +21,17 @@ This project analyzes Bitcoin blockchain data to understand transaction patterns
 - Temporal patterns in Bitcoin transactions
 
 ## Data Sources
-
 The project uses the following data sources:
 - Bitcoin blockchain data via Bitcoin Core API or public datasets
 - Known exchange address lists from public repositories
 - Historical Bitcoin price data for contextual analysis
 
-## Setup and Installation
-
 ### Prerequisites
-
 - Python 3.8+
 - Bitcoin Core (optional for direct blockchain access)
 - PostgreSQL or similar database for storing processed data
 
 ### Installation
-
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/bitcoin-transaction-analysis.git
@@ -66,8 +50,6 @@ cp config.example.yml config.yml
 ```
 
 ## Project Structure
-
-```
 bitcoin-transaction-analysis/
 ├── data/                      # Raw and processed data
 ├── notebooks/                 # Jupyter notebooks for exploration
