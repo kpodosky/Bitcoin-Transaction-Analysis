@@ -179,3 +179,15 @@ Putting this all together, the explanation should guide the user through each st
 - [Blockchain.com](https://www.blockchain.com/explorer) for blockchain data
 - [BitcoinWhosWho](https://www.bitcoinwhoswho.com/) for address tagging information
 - [Graphsense](https://graphsense.info/) for address clustering techniques
+
+## common issue
+
+# Missing dependencies
+pip install -r requirements.txt
+
+# Permission issues (Bitcoin RPC)
+sudo ufw allow 8332/tcp
+
+# Memory errors
+export PYTHONOPTIMIZE=1  # Enable memory optimizations
+
