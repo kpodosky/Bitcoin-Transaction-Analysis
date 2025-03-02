@@ -130,4 +130,273 @@ class ExchangeFlowAnalyzer:
                 
                 # Check each output address
                 for output_addr, output_amount in tx['outputs']:
-                    output
+                    output_exchange = self._get_exchange_for_address(output_addr)
+                    
+                    if output_exchange:
+                        # This is an exchange inflow
+                        self.exchange_inflow[output_exchange] += output_amount
+                        self.exchange_tx_count[output_exchange]['in'] += 1
+                        self.exchange_volume[output_exchange] += output_amount
+                        self.daily_flows[tx_date.strftime('%Y-%m-%d')][output_exchange]['in'] += output_amount
+                
+        except Exception as e:
+            logger.error(f"Error processing {tx_file}: {e}")
+            # Continue with next file
+    
+    def _get_exchange_for_address(self, address):
+        """
+        Check if address belongs to a known exchange.
+        
+        Args:
+            address: Bitcoin address to check
+            
+        Returns:
+            Exchange name if found, None otherwise
+        """
+        for exchange, addresses in self.exchange_addresses.items():
+            if address in addresses:
+                return exchange
+        return None
+    
+    def generate_summary_report(self):
+        """Generate a summary report of exchange flows."""
+        logger.info("Generating exchange flow summary report")
+        
+        # Create summary dataframe
+        data = []
+        for exchange in self.exchange_volume:
+            data.append({
+                'exchange': exchange,
+                'inflow': self.exchange_inflow[exchange],
+                'outflow': self.exchange_outflow[exchange],
+                'net_flow': self.exchange_inflow[exchange] - self.exchange_outflow[exchange],
+                'total_volume': self.exchange_volume[exchange],
+                'tx_count_in': self.exchange_tx_count[exchange]['in'],
+                'tx_count_out': self.exchange_tx_count[exchange]['out'],
+                'total_tx_count': self.exchange_tx_count[exchange]['in'] + self.exchange_tx_count[exchange]['out']
+            })
+        
+        df = pd.DataFrame(data)
+        
+        # Sort by total volume
+        df.sort_values('total_volume', ascending=False, inplace=True)
+        
+        # Save to CSV
+        output_file = os.path.join(self.output_dir, 'exchange_flow_summary.csv')
+        df.to_csv(output_file, index=False)
+        
+        logger.info(f"Summary report saved to {output_file}")
+        
+        return df
+    
+    def generate_daily_flow_report(self):
+        """Generate a report of daily exchange flows."""
+        logger.info("Generating daily exchange flow report")
+        
+        # Convert nested defaultdict to DataFrame
+        data = []
+        for date, exchanges in self.daily_flows.items():
+            for exchange, flows in exchanges.items():
+                data.append({
+                    'date': date,
+                    'exchange': exchange,
+                    'inflow': flows['in'],
+                    'outflow': flows['out'],
+                    'net_flow': flows['in'] - flows['out']
+                })
+        
+        df = pd.DataFrame(data)
+        
+        # Sort by date and exchange
+        df.sort_values(['date', 'exchange'], inplace=True)
+        
+        # Save to CSV
+        output_file = os.path.join(self.output_dir, 'daily_exchange_flows.csv')
+        df.to_csv(output_file, index=False)
+        
+        logger.info(f"Daily flow report saved to {output_file}")
+        
+        return df
+    
+    def generate_visualizations(self):
+        """Generate visualizations for exchange flows."""
+        logger.info("Generating exchange flow visualizations")
+        
+        # Get summary data
+        summary_df = self.generate_summary_report()
+        daily_df = self.generate_daily_flow_report()
+        
+        # 1. Top exchanges by volume pie chart
+        self._generate_top_exchanges_pie_chart(summary_df)
+        
+        # 2. Inflow vs outflow bar chart
+        self._generate_inflow_outflow_chart(summary_df)
+        
+        # 3. Net flow over time chart (for top exchanges)
+        self._generate_net_flow_time_chart(daily_df)
+        
+        # 4. Exchange market share evolution
+        self._generate_market_share_chart(daily_df)
+        
+        logger.info("Visualization generation complete")
+    
+    def _generate_top_exchanges_pie_chart(self, df, top_n=10):
+        """Generate pie chart of top exchanges by volume."""
+        logger.info(f"Generating top {top_n} exchanges pie chart")
+        
+        # Take top N exchanges
+        top_df = df.head(top_n)
+        
+        # Create pie chart
+        plt.figure(figsize=(12, 8))
+        plt.pie(
+            top_df['total_volume'],
+            labels=top_df['exchange'],
+            autopct='%1.1f%%',
+            startangle=90,
+            shadow=True
+        )
+        plt.axis('equal')
+        plt.title(f'Top {top_n} Exchanges by Transaction Volume')
+        
+        # Save figure
+        output_file = os.path.join(self.output_dir, 'charts', 'top_exchanges_volume.png')
+        plt.savefig(output_file, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        logger.info(f"Pie chart saved to {output_file}")
+    
+    def _generate_inflow_outflow_chart(self, df, top_n=10):
+        """Generate bar chart of inflow vs outflow for top exchanges."""
+        logger.info(f"Generating inflow vs outflow chart for top {top_n} exchanges")
+        
+        # Take top N exchanges by volume
+        top_df = df.head(top_n)
+        
+        # Create grouped bar chart
+        plt.figure(figsize=(14, 8))
+        
+        x = np.arange(len(top_df))
+        width = 0.35
+        
+        plt.bar(x - width/2, top_df['inflow'], width, label='Inflow', color='green')
+        plt.bar(x + width/2, top_df['outflow'], width, label='Outflow', color='red')
+        
+        plt.xlabel('Exchange')
+        plt.ylabel('Volume (BTC)')
+        plt.title('Inflow vs Outflow for Top Exchanges')
+        plt.xticks(x, top_df['exchange'], rotation=45, ha='right')
+        plt.legend()
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+        
+        plt.tight_layout()
+        
+        # Save figure
+        output_file = os.path.join(self.output_dir, 'charts', 'exchange_inflow_outflow.png')
+        plt.savefig(output_file, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        logger.info(f"Bar chart saved to {output_file}")
+    
+    def _generate_net_flow_time_chart(self, df, top_n=5):
+        """Generate line chart of net flow over time for top exchanges."""
+        logger.info(f"Generating net flow time chart for top {top_n} exchanges")
+        
+        # Get top exchanges by total volume
+        summary_df = self.generate_summary_report()
+        top_exchanges = summary_df.head(top_n)['exchange'].tolist()
+        
+        # Filter daily flow data for top exchanges
+        filtered_df = df[df['exchange'].isin(top_exchanges)]
+        
+        # Convert date string to datetime for proper sorting
+        filtered_df['date'] = pd.to_datetime(filtered_df['date'])
+        
+        # Pivot data for plotting
+        pivot_df = filtered_df.pivot(index='date', columns='exchange', values='net_flow')
+        
+        # Plot time series
+        plt.figure(figsize=(14, 8))
+        
+        for exchange in top_exchanges:
+            if exchange in pivot_df.columns:
+                plt.plot(pivot_df.index, pivot_df[exchange], label=exchange, linewidth=2)
+        
+        plt.xlabel('Date')
+        plt.ylabel('Net Flow (BTC)')
+        plt.title('Daily Net Flow for Top Exchanges')
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+        
+        # Format x-axis dates
+        plt.gcf().autofmt_xdate()
+        
+        # Add zero line
+        plt.axhline(y=0, color='k', linestyle='-', alpha=0.3)
+        
+        plt.tight_layout()
+        
+        # Save figure
+        output_file = os.path.join(self.output_dir, 'charts', 'exchange_net_flow_time.png')
+        plt.savefig(output_file, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        logger.info(f"Time chart saved to {output_file}")
+    
+    def _generate_market_share_chart(self, df, top_n=5):
+        """Generate area chart of exchange market share over time."""
+        logger.info(f"Generating market share evolution chart for top {top_n} exchanges")
+        
+        # Get top exchanges by total volume
+        summary_df = self.generate_summary_report()
+        top_exchanges = summary_df.head(top_n)['exchange'].tolist()
+        
+        # Filter daily flow data for top exchanges
+        filtered_df = df[df['exchange'].isin(top_exchanges)]
+        
+        # Convert date string to datetime for proper sorting
+        filtered_df['date'] = pd.to_datetime(filtered_df['date'])
+        
+        # Calculate total volume per day per exchange
+        filtered_df['total_volume'] = filtered_df['inflow'] + filtered_df['outflow']
+        
+        # Pivot data for plotting
+        pivot_df = filtered_df.pivot_table(
+            index='date', 
+            columns='exchange', 
+            values='total_volume',
+            aggfunc='sum'
+        ).fillna(0)
+        
+        # Calculate daily total volume
+        daily_total = pivot_df.sum(axis=1)
+        
+        # Calculate market share percentages
+        market_share = pivot_df.div(daily_total, axis=0) * 100
+        
+        # Plot stacked area chart
+        plt.figure(figsize=(14, 8))
+        plt.stackplot(
+            market_share.index,
+            market_share.T,
+            labels=market_share.columns,
+            alpha=0.7
+        )
+        
+        plt.xlabel('Date')
+        plt.ylabel('Market Share (%)')
+        plt.title(f'Market Share Evolution of Top {top_n} Exchanges')
+        plt.legend(loc='upper left')
+        plt.grid(True, alpha=0.3)
+        
+        # Format x-axis dates
+        plt.gcf().autofmt_xdate()
+        
+        plt.tight_layout()
+        
+        # Save figure
+        output_file = os.path.join(self.output_dir, 'charts', 'exchange_market_share.png')
+        plt.savefig(output_file, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        logger.info(f"Market share chart saved to {output_file}")
