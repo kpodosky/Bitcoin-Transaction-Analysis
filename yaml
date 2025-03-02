@@ -1,0 +1,5 @@
+bitcoin_rpc:
+  host: localhost
+  port: 8332
+  user: bitcoinrpc
+  password: securepassword
