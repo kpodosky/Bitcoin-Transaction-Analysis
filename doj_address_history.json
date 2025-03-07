@@ -1,0 +1,22 @@
+{
+    "last_update": "2025-02-22T10:01:54.097261",
+    "addresses": {},
+    "bc1qa5wkgaew2dkv56kfvj49j0av5nml45x9ek9hz6": {
+        "balance": 69370.18109983,
+        "total_received": 69370.18109983,
+        "total_sent": 0.0,
+        "n_tx": 114
+    },
+    "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX": {
+        "balance": 0.32865201,
+        "total_received": 29679.66872977,
+        "total_sent": 29679.34007776,
+        "n_tx": 1841
+    },
+    "bc1qmxjefnuy06v345v6vhwpwt05dztztmx4g3y7wp": {
+        "balance": 0.0,
+        "total_received": 49825.72380688,
+        "total_sent": 49825.72380688,
+        "n_tx": 18
+    }
+}

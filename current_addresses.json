@@ -1,0 +1,197 @@
+{
+    "binance": {
+        "type": "exchange",
+        "addresses": []
+    },
+    "coinbase": {
+        "type": "exchange",
+        "addresses": [
+            "bc1qa5wkgaew2dkv56kfvj49j0av5nml45x9ek9hz6",
+            "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+            "1FzWLkAahHooV3kzTgyx6qsswXJ6sCXkSR",
+            "bc1qzy8mpr6nqa8yht8jsg7qq8tk7mxz5k6wh8hf98"
+        ]
+    },
+    "grayscale": {
+        "type": "investment",
+        "addresses": [
+            "bc1q2qc0g9k5qyh7kcyy0dhh5jgv7p5qh86rjpkhce",
+            "bc1qx9t2l3pyny2spqpqlye8svce70nppwtaxwdrp4"
+        ]
+    },
+    "microstrategy": {
+        "type": "corporate",
+        "addresses": [
+            "bc1q4c8n5t30alzxqxcjfevr66k9hp8jd9qz7xyyf8",
+            "bc1qy9qa8f53g8xzqpwd8kgl5zyggtgkc98ny42vr8"
+        ]
+    },
+    "blockfi": {
+        "type": "lending",
+        "addresses": [
+            "bc1q7kyrfmx49qa7n6g8mvlh36d4w9zf4lkwfg4j5q",
+            "bc1qd73dxk2qfs2x5wv2sesvqrzgx7t5tqt4y5vpym"
+        ]
+    },
+    "celsius": {
+        "type": "lending",
+        "addresses": [
+            "bc1q06ymtp6eq27mlz3ppv8z7esc8vq3v4nsjx9eng",
+            "bc1qcex3e38gqh6qnzpn9jth5drgfyh5k9sjzq3rkm"
+        ]
+    },
+    "kraken": {
+        "type": "exchange",
+        "addresses": [
+            "3FupZp77ySr7jwoLYEJ9mwzJpvoNBXsBnE",
+            "3H5JTt42K7RmZtromfTSefcMEFMMe18pMD",
+            "3AfP9N7KNq2pYXiGQdgNJy8SD2Mo7pQKUR",
+            "3E1jkR1PJ8hFUqCkDjimwPoF2bZVrkqnpv"
+        ]
+    },
+    "bitfinex": {
+        "type": "exchange",
+        "addresses": [
+            "3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r",
+            "3JZq4atUahhuA9rLhXLMhhTo133J9rF97j",
+            "3QW95MafxER9W7kWDcosQNdLk4Z36TYJZL"
+        ]
+    },
+    "huobi": {
+        "type": "exchange",
+        "addresses": [
+            "3M219KR5vEneNb47ewrPfWyb5jQ2DjxRP6",
+            "38WUPqGLXphpD1DwkMR8koGfd5UQfRnmrk",
+            "1HckjUpRGcrrRAtFaaCAUaGjsPx9oYmLaZ"
+        ]
+    },
+    "okex": {
+        "type": "exchange",
+        "addresses": [
+            "3LQUu4v9z6KNch71j7kbj8GPeAGUo1FW6a",
+            "3LCGsSmfr24demGvriN4e3ft8wEcDuHFqh",
+            "3FupZp77ySr7jwoLYEJ9mwzJpvoNBXsBnE"
+        ]
+    },
+    "gemini": {
+        "type": "exchange",
+        "addresses": [
+            "3P3QsMVK89JBNqZQv5zMAKG8FK3kJM4rjt",
+            "393HLwqnkrJMxYQTHjWBJPAKC3UG6k6FwB",
+            "3AAzK4Xbu8PTM8AD7gw2XaMZavL6xoKWHQ"
+        ]
+    },
+    "bitstamp": {
+        "type": "exchange",
+        "addresses": [
+            "3P3QsMVK89JBNqZQv5zMAKG8FK3kJM4rjt",
+            "3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r",
+            "3DbAZpqKhUBu4rqafHzj7hWquoBL6gFBvj"
+        ]
+    },
+    "bittrex": {
+        "type": "exchange",
+        "addresses": [
+            "3KJrsjfg1dD6CrsTeHdM5SSk3PhXjNwhA7",
+            "3KJrsjfg1dD6CrsTeHdM5SSk3PhXjNwhA7",
+            "3QW95MafxER9W7kWDcosQNdLk4Z36TYJZL"
+        ]
+    },
+    "kucoin": {
+        "type": "exchange",
+        "addresses": [
+            "3M219KR5vEneNb47ewrPfWyb5jQ2DjxRP6",
+            "3H5JTt42K7RmZtromfTSefcMEFMMe18pMD",
+            "3AfP9N7KNq2pYXiGQdgNJy8SD2Mo7pQKUR"
+        ]
+    },
+    "gate_io": {
+        "type": "exchange",
+        "addresses": [
+            "3FupZp77ySr7jwoLYEJ9mwzJpvoNBXsBnE",
+            "38WUPqGLXphpD1DwkMR8koGfd5UQfRnmrk"
+        ]
+    },
+    "ftx": {
+        "type": "exchange",
+        "addresses": [
+            "3LQUu4v9z6KNch71j7kbj8GPeAGUo1FW6a",
+            "3E1jkR1PJ8hFUqCkDjimwPoF2bZVrkqnpv"
+        ]
+    },
+    "bybit": {
+        "type": "exchange",
+        "addresses": [
+            "3JZq4atUahhuA9rLhXLMhhTo133J9rF97j",
+            "3QW95MafxER9W7kWDcosQNdLk4Z36TYJZL"
+        ]
+    },
+    "cryptocom": {
+        "type": "exchange",
+        "addresses": [
+            "3P3QsMVK89JBNqZQv5zMAKG8FK3kJM4rjt",
+            "3AAzK4Xbu8PTM8AD7gw2XaMZavL6xoKWHQ"
+        ]
+    },
+    "doj": {
+        "type": "government",
+        "addresses": []
+    },
+    "whales": {
+        "type": "private",
+        "addresses": [
+            "bc1qm34lsc65zpw79lxes69zkqmk6ee3ewf0j77s3h",
+            "bc1qf3qugf0c9vu4k9zsxqjgazxqwp3y6yrqh4686g"
+        ]
+    },
+    "miners": {
+        "type": "pool",
+        "addresses": [
+            "1CK6KHY6MHgYvmRQ4PAafKYDrg1ejbH1cE",
+            "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+            "12ib7dApVFvg82TXKycWBNpN8kFyiAN1dr",
+            "3Gpex6g5FPmYWm26myFq7dW12ntd8zMcCY"
+        ]
+    },
+    "institutions": {
+        "type": "corporate",
+        "addresses": [
+            "bc1qazcm763858nkj2dj986etajv6wquslv8uxwczt",
+            "bc1qe7nps5yv7ruc884zscwrk9g2mxvqh7tkxfxwny",
+            "3BMEXxSMT2b2kvsnC4Q35d2kKJZ4u6xyNx",
+            "3KQ5tTEbhrwBjhv3WMgKzn8jQ7UvHQBNCk"
+        ]
+    },
+    "otc_desks": {
+        "type": "trading",
+        "addresses": [
+            "3FHNBLobJnbCTFTVakh5TXmEneyf5PT61B",
+            "3ETfs8Wd3QcRvKPZghgYrPqcBkzWpwkrAx",
+            "3QqKexPMiMnXvNSxj3kGJuaEMrDLTYmVfg"
+        ]
+    },
+    "defi": {
+        "type": "protocol",
+        "addresses": [
+            "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+            "bc1q7kyrfmx49qa7n6g8mvlh36d4w9zf4lkwfg4j5q",
+            "bc1qd73dxk2qfs2x5wv2sesvqrzgx7t5tqt4y5vpym"
+        ]
+    },
+    "historical": {
+        "type": "archive",
+        "addresses": [
+            "1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF",
+            "12c6DSiU4Rq3P4ZxziKxzrL5LmMBrzjrJX",
+            "1HLoD9E4SDFFPDiYfNYnkBLQ85Y51J3Zb1"
+        ]
+    },
+    "custodians": {
+        "type": "custody",
+        "addresses": [
+            "385cR5DM96n1HvBDMzLHPYcw89fZAXULJP",
+            "3FHNBLobJnbCTFTVakh5TXmEneyf5PT61B",
+            "3AgF6KovmZYyqtews1gUxZC4JPz74JTUE9"
+        ]
+    }
+}

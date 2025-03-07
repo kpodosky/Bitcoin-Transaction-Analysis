@@ -1,0 +1,42 @@
+import requests
+from bs4 import BeautifulSoup
+
+# Updated list of exams
+exams = [
+    {"name": "KTE", "website": "http://example.com/kte", "cost": "£90", "our_price": "£90"},
+    {"name": "Oet", "website": "http://example.com/oet", "cost": "$455", "our_price": "$465"},
+    {"name": "Ielts (standard)", "website": "http://example.com/ielts-standard", "cost": "₦266000", "our_price": "₦272000"},
+    {"name": "Ielts (ukvi)", "website": "http://example.com/ielts-ukvi", "cost": "₦285000", "our_price": "₦292000"},
+    {"name": "Selts", "website": "http://example.com/selts", "cost": "$125", "our_price": "$135"},
+    {"name": "Gre", "website": "http://example.com/gre", "cost": "$220", "our_price": "$230"},
+    {"name": "Gmat", "website": "http://example.com/gmat", "cost": "$250", "our_price": "$260"},
+    {"name": "Act", "website": "http://example.com/act", "cost": "$221", "our_price": "$231"},
+    {"name": "Sat", "website": "http://example.com/sat", "cost": "$126", "our_price": "$136"},
+    {"name": "Toefl", "website": "http://example.com/toefl", "cost": "₦175000", "our_price": "₦205000"},
+    {"name": "Celpip", "website": "http://example.com/celpip", "cost": "$180", "our_price": "$190"},
+    {"name": "LSAT", "website": "http://example.com/lsat", "cost": "$238", "our_price": "$248"},
+    {"name": "NCLEX", "website": "http://example.com/nclex", "cost": "$350", "our_price": "$360"},
+    {"name": "CAEL", "website": "http://example.com/cael", "cost": "$268", "our_price": "$278"},
+]
+
+def get_price_from_website(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    # Assuming the price is within a tag with id 'price'
+    price_tag = soup.find(id='price')
+    if price_tag:
+        return price_tag.text.strip()
+    return None
+
+def compare_prices(exams):
+    for exam in exams:
+        website_price = get_price_from_website(exam['website'])
+        if website_price:
+            if website_price != exam['cost']:
+                print(f"Price change detected for {exam['name']}:")
+                print(f"Website price: {website_price}")
+                print(f"Recorded price: {exam['cost']}")
+            else:
+                print(f"No price change for {exam['name']}")
+
+compare_prices(exams)
